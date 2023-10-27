@@ -12,9 +12,11 @@ import {
   ApiBody,
   ApiOperation,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger'
 
 @Controller('/accounts')
+@ApiTags('Account')
 export class CreateAccountController {
   constructor(private prisma: PrismaService) {}
 

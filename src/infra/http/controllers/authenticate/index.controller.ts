@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { compare } from 'bcryptjs'
 import { JwtService } from '@nestjs/jwt'
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 
 import { AuthenticateBodySchema, authenticateBodySchema } from './schema'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
@@ -25,6 +25,7 @@ export class AuthenticateController {
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
   @ApiBody({ type: AuthenticateDto })
+  @ApiOperation({ summary: 'Get access token' })
   @ApiResponse({ status: 201, description: 'Successful authentication' })
   @ApiResponse({ status: 401, description: 'User credentials do not match' })
   async handle(@Body() body: AuthenticateBodySchema) {

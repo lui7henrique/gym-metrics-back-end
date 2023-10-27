@@ -8,10 +8,40 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String     @id @default(uuid())
   name     String
-  email    String @unique
+  email    String     @unique
   password String
+  Training Training[]
 
   @@map("users")
+}
+
+model Training {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  name   String
+  days   Day[]
+
+  @@map("trainings")
+}
+
+model Day {
+  id         String     @id @default(uuid())
+  name       String
+  exercises  Exercise[]
+  trainingId String
+  training   Training   @relation(fields: [trainingId], references: [id])
+
+  @@map("days")
+}
+
+model Exercise {
+  id    String @id @default(uuid())
+  name  String
+  dayId String
+  day   Day    @relation(fields: [dayId], references: [id])
+
+  @@map("exercises")
 }

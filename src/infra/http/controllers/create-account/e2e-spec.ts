@@ -22,13 +22,15 @@ describe('Create Account (E2E)', () => {
   })
 
   test('[POST] /accounts (creates a new user)', async () => {
-    const response = await request(app.getHttpServer()).post('/accounts').send({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456',
-    })
+    const { statusCode } = await request(app.getHttpServer())
+      .post('/accounts')
+      .send({
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        password: '123456',
+      })
 
-    expect(response.statusCode).toBe(201)
+    expect(statusCode).toBe(201)
 
     const userOnDatabase = await prisma.user.findUnique({
       where: {
@@ -48,10 +50,10 @@ describe('Create Account (E2E)', () => {
 
     await request(app.getHttpServer()).post('/accounts').send(userData)
 
-    const response = await request(app.getHttpServer())
+    const { status } = await request(app.getHttpServer())
       .post('/accounts')
       .send(userData)
 
-    expect(response.status).toBe(HttpStatus.CONFLICT)
+    expect(status).toBe(HttpStatus.CONFLICT)
   })
 })
