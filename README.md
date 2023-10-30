@@ -1,7 +1,7 @@
 # To-do 
 
 Routes
-- [x] Create-account
+- [x] Create-user
 - [x] Authenticate
 
 - [x] Create new plan

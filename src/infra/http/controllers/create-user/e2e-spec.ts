@@ -3,9 +3,9 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { CreateAccountBodySchema } from './schema'
+import { CreateUserBodySchema } from './schema'
 
-describe('Create Account (E2E)', () => {
+describe('Create User (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
 
@@ -21,9 +21,9 @@ describe('Create Account (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /accounts (creates a new user)', async () => {
+  test('[POST] /user (creates a new user)', async () => {
     const { statusCode } = await request(app.getHttpServer())
-      .post('/accounts')
+      .post('/user')
       .send({
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -41,17 +41,17 @@ describe('Create Account (E2E)', () => {
     expect(userOnDatabase).toBeTruthy()
   })
 
-  test('[POST] /accounts (fails to create a duplicate user)', async () => {
-    const userData: CreateAccountBodySchema = {
+  test('[POST] /user (fails to create a duplicate user)', async () => {
+    const userData: CreateUserBodySchema = {
       name: 'Jane Smith',
       email: 'janesmith@example.com',
       password: '654321',
     }
 
-    await request(app.getHttpServer()).post('/accounts').send(userData)
+    await request(app.getHttpServer()).post('/user').send(userData)
 
     const { status } = await request(app.getHttpServer())
-      .post('/accounts')
+      .post('/user')
       .send(userData)
 
     expect(status).toBe(HttpStatus.CONFLICT)

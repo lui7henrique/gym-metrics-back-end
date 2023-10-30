@@ -20,7 +20,7 @@ describe('Me (E2E)', () => {
 
     await app.init()
 
-    await request(app.getHttpServer()).post('/accounts').send({
+    await request(app.getHttpServer()).post('/user').send({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
